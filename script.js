@@ -1,5 +1,5 @@
 // Se definen variables, constantes
-const score=document.querySelector('.puntaje');
+const score=document.querySelector('.score');
             const pantallaInicio=document.querySelector('.pantallaInicio');
             const areaJuego=document.querySelector('.areaJuego');
             pantallaInicio.addEventListener('click',start);
@@ -57,7 +57,7 @@ const score=document.querySelector('.puntaje');
 
             }
             function cocheObstaculo(car){
-                let enemy=document.querySelectorAll('.obstaculo');
+                let enemy=document.querySelectorAll('.cocheObstaculo');
                 enemy.forEach(function(item){
 
                     if(estrellar(car,item)){
@@ -143,11 +143,11 @@ const score=document.querySelector('.puntaje');
                 Define la posicion y la cantidad*/
                 for(x=0;x<3;x++){
                     let enemyCar=document.createElement('div');
-                    enemyCar.setAttribute('class','enemy');
+                    enemyCar.setAttribute('class','cocheObstaculo');
                     enemyCar.y=((x+1)*350)*-1;
                     enemyCar.style.top=enemyCar.y+"px";
                     enemyCar.style.left=Math.floor(Math.random()*350)+"px";
-                    areaJuego   .appendChild(enemyCar);
+                    areaJuego.appendChild(enemyCar);
                 }
 
 
