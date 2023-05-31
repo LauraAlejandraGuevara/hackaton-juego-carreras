@@ -1,8 +1,8 @@
 // Se definen variables, constantes
-const puntaje=document.querySelector('.puntaje');
+const score=document.querySelector('.puntaje');
             const pantallaInicio=document.querySelector('.pantallaInicio');
             const areaJuego=document.querySelector('.areaJuego');
-            startScreen.addEventListener('click',start);
+            pantallaInicio.addEventListener('click',start);
             let player={speed:10,score:0}; /*velocidad*/
             let keys ={ArrowUp:false,ArrowDown:false,ArrowLeft:false,ArrowRight:false}/*Se define false a las teclas*/
 
@@ -24,7 +24,7 @@ const puntaje=document.querySelector('.puntaje');
             /*Se define la funcion para cuando hay un choque(a y b)*/
             /*Se definen como 2 rectangulos donde se evalua con booleanos al superponerse los coches*/
             /*El return evalua las condiciones booleanas cuando los bordes se pegan*/
-            function isCollide(a,b){
+            function estrellar(a,b){
                 aRect=a.getBoundingClientRect();
                 bRect=b.getBoundingClientRect();
                 return !((aRect.bottom<bRect.top)||(aRect.top>bRect.bottom)||(aRect.right<bRect.left)||(aRect.left>bRect.right))
@@ -35,9 +35,9 @@ const puntaje=document.querySelector('.puntaje');
             /*Para .lines se define su posicion vertical y limites */
             /*Se relaciona con la velocidad del carro asi da la sensacion de que se mueve*/
             /*y con style.top se relaciona con el HTML*/
-            function moveLines(){
-                let lines=document.querySelectorAll('.lines');
-                lines.forEach(function(item){
+            function lineas(){
+                let lineas=document.querySelectorAll('.lineas');
+                lineas.forEach(function(item){
                     if(item.y >=650){
                         item.y-=740;
                     }
@@ -47,22 +47,23 @@ const puntaje=document.querySelector('.puntaje');
 
             /*Se define la funcion al finalizar el juego y se agrega un mensaje*/
             }
-            function endGame(){
+            function finalizarJuego(){
                 player.start=false;
-                startScreen.classList.remove('hide');
-                startScreen.innerHTML="Fin del juego <br> Puntuación final:"+player.score+" "+"<br>Pulsa de nuevo para volver a empezar";
+                pantallaInicio.classList.remove('hide');
+                pantallaInicio.innerHTML="Fin del juego <br> Puntuación final:"+player.score+" "+"<br>Pulsa de nuevo para volver a empezar";
             /*Se selecciona la clase .enemy y con la funcion definida arriba se comprueba
             si chocaron, al chocar se ejecute la funcion de finalizar el juego
             Y se comprueba la posicion de item.y para que no este fuera del area establecida*/
 
             }
-            function moveEnemy(car){
-                let enemy=document.querySelectorAll('.enemy');
+            function cocheObstaculo(car){
+                let enemy=document.querySelectorAll('.obstaculo');
                 enemy.forEach(function(item){
 
-                    if(isCollide(car,item)){
-                        console.log("Bang!");
-                        endGame();
+                    if(estrellar(car,item)){
+                        let sonidoChocar = new Audio('img/choque.mp3');
+                        sonidoChocar.play();
+                        finalizarJuego();
                     }
                     if(item.y >=750){
                         item.y=-300;
@@ -79,12 +80,12 @@ const puntaje=document.querySelector('.puntaje');
             dentro del limite establecido */
 
             function gamePlay(){
-                console.log("here we go");
+                //console.log("YA");
                 let car=document.querySelector('.car');
-                let road=gameArea.getBoundingClientRect();
+                let road=areaJuego.getBoundingClientRect();
                 if(player.start){
-                    moveLines();
-                    moveEnemy(car);
+                    lineas();
+                    cocheObstaculo(car);
 
                     if(keys.ArrowUp && player.y>(road.top)){
                         player.y-=player.speed
@@ -114,24 +115,24 @@ const puntaje=document.querySelector('.puntaje');
               */
 
             function start(){
-                startScreen.classList.add('hide');
-                gameArea.innerHTML="";
+                pantallaInicio.classList.add('hide');
+                areaJuego.innerHTML="";
                 player.start=true;
                 player.score=0;
                 window.requestAnimationFrame(gamePlay);
 
                 for(x=0;x<8;x++){
                     let roadLine=document.createElement('div');
-                    roadLine.setAttribute('class','lines');
+                    roadLine.setAttribute('class','lineas');
                     roadLine.y=(x*150);
                     roadLine.style.top=roadLine.y+80;
-                    gameArea.appendChild(roadLine);
+                    areaJuego.appendChild(roadLine);
                 }
 
                 /* Crea el div del coche del jugador y lo pone en el area donde empieza*/
                 let car=document.createElement('div');
                 car.setAttribute('class','car');
-                gameArea.appendChild(car);
+                areaJuego.appendChild(car);
 
                 player.x=car.offsetLeft;
                 player.y=car.offsetTop+120;
@@ -146,7 +147,7 @@ const puntaje=document.querySelector('.puntaje');
                     enemyCar.y=((x+1)*350)*-1;
                     enemyCar.style.top=enemyCar.y+"px";
                     enemyCar.style.left=Math.floor(Math.random()*350)+"px";
-                    gameArea.appendChild(enemyCar);
+                    areaJuego   .appendChild(enemyCar);
                 }
 
 
