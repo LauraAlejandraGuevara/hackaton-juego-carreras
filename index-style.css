@@ -1,0 +1,38 @@
+.coche {
+    border: 2px solid transparent;
+    cursor: pointer;
+    width: 200px;
+    height: 400px;
+  }
+  
+  .coche.selected {
+    border-color: blue;
+  }
+  body {
+    background-color: green !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #cochesGrid{
+    align-items: center;
+    justify-content: center;
+    max-width: 60%;
+  }
+#footer{
+  display: flex;
+  justify-content: flex-end !important;
+}
+#cochesBody{
+  display: flex;
+  justify-content: space-between;
+}
+#logo{
+  width: 400px;
+  height: 200px;
+}
+#header-logo{
+  display: flex;
+  justify-items: auto;
+  font-weight: bold;
+}
