@@ -52,7 +52,8 @@ const puntaje=document.querySelector('.puntaje');
                 startScreen.classList.remove('hide');
                 startScreen.innerHTML="Fin del juego <br> Puntuación final:"+player.score+" "+"<br>Pulsa de nuevo para volver a empezar";
             /*Se selecciona la clase .enemy y con la funcion definida arriba se comprueba
-            si chocaron, al chocar se ejecute la funcion de finalizar el juego*/
+            si chocaron, al chocar se ejecute la funcion de finalizar el juego
+            Y se comprueba la posicion de item.y para que no este fuera del area establecida*/
 
             }
             function moveEnemy(car){
@@ -71,11 +72,16 @@ const puntaje=document.querySelector('.puntaje');
                     item.style.top=item.y+"px";
                 })
             }
+            /*Selecciona .car y se toma la variable road para limitar los movimientos y solo se mueva
+            dentro del area establecida
+            Si el condiciona es vedadero entonces se ejecuta las cosas del juego
+            Y por ultimo se comprueba las teclas de las flechas para comprobar que los movimientos esten
+            dentro del limite establecido */
+
             function gamePlay(){
                 console.log("here we go");
                 let car=document.querySelector('.car');
                 let road=gameArea.getBoundingClientRect();
-                /*console.log(road);*/
                 if(player.start){
                     moveLines();
                     moveEnemy(car);
@@ -101,6 +107,12 @@ const puntaje=document.querySelector('.puntaje');
                     score.innerText="Score: "+ps;
                 }
             }
+            /*Se ejecuta al iniciar el juego cambiando el valor boleano a true
+            se reinicia el score, y se llama a requestAnimationFrame para iniciar el ciclo
+            de la animacion
+            Con el FOR se  crean las lineas verticales de la calle
+              */
+
             function start(){
                 startScreen.classList.add('hide');
                 gameArea.innerHTML="";
@@ -116,7 +128,7 @@ const puntaje=document.querySelector('.puntaje');
                     gameArea.appendChild(roadLine);
                 }
 
-                /* DIV del carro */
+                /* Crea el div del coche del jugador y lo pone en el area donde empieza*/
                 let car=document.createElement('div');
                 car.setAttribute('class','car');
                 gameArea.appendChild(car);
@@ -124,8 +136,10 @@ const puntaje=document.querySelector('.puntaje');
                 player.x=car.offsetLeft;
                 player.y=car.offsetTop+120;
                 player.x=car.offsetWidth+120;
-                
 
+
+                /*Crea los elementos que seran los obstaculos
+                Define la posicion y la cantidad*/
                 for(x=0;x<3;x++){
                     let enemyCar=document.createElement('div');
                     enemyCar.setAttribute('class','enemy');
